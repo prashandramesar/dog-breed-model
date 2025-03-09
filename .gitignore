@@ -1,6 +1,5 @@
 data/
 src/backend/test_images/*
-*.tflite
 *.jpg
 *.jpeg
 
