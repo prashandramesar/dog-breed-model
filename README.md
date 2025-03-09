@@ -76,7 +76,7 @@ The project includes cloud deployment configuration with:
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - TensorFlow 2.x
 - FastAPI
 - Pillow
