@@ -1,0 +1,102 @@
+[project]
+name = "dog-breed-model"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "tensorflow",
+    "scikit-learn",
+    "keras",
+    "numpy",
+    "matplotlib",
+    "pandas",
+    "ruff>=0.9.10",
+    "mypy>=1.15.0",
+    "black>=25.1.0",
+    "pip>=25.0.1",
+    "types-requests>=2.32.0.20250306",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pypackages__",
+    "dist",
+    "node_modules",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Sort imports
+[tool.ruff.lint.isort]
+known-first-party = ["backend"]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.format]
+# Indent with spaces, rather than tabs.
+indent-style = "space"
+# Respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ruff.lint]
+# Enable type checking, pyflakes, pycodestyle, and import rules
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # isort
+    "ANN", # type annotations
+    "TCH", # type checking
+    "UP",  # pyupgrade
+    "RUF", # ruff-specific rules
+    "B",   # flake8-bugbear
+    "N",   # pep8-naming
+]
+ignore = [
+    "ANN101", # Missing type annotation for `self` in method
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.uv]
+override-dependencies = [
+    "tensorflow-io-gcs-filesystem ; sys_platform == 'never'"
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+]

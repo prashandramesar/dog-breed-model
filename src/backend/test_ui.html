@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Dog Breed Classifier</h1>
+  <form id="uploadForm">
+    <input type="file" id="imageInput" accept="image/*">
+    <button type="submit">Classify</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      const fileInput = document.getElementById('imageInput');
+      formData.append('file', fileInput.files[0]);
+
+      document.getElementById('result').innerHTML = 'Classifying...';
+
+      try {
+        const response = await fetch('http://localhost:8000/predict/', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+        let resultHtml = '<h2>Results:</h2><ul>';
+
+        data.predictions.forEach(prediction => {
+          resultHtml += `<li>${prediction.breed}: ${(prediction.confidence * 100).toFixed(2)}%</li>`;
+        });
+
+        resultHtml += '</ul>';
+        document.getElementById('result').innerHTML = resultHtml;
+      } catch (error) {
+        document.getElementById('result').innerHTML = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
